@@ -27,7 +27,7 @@ function EventDetailedHeader({event}) {
           style={eventImageStyle}
         />
 
-        <Segment basics style={eventImageTextStyle}>
+        <Segment basic style={eventImageTextStyle}>
           <Item.Group>
             <Item>
               <Item.Content>

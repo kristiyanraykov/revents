@@ -1,3 +1,4 @@
+/* global google */
 import cuid from 'cuid';
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -11,6 +12,7 @@ import MyTextArea from '../../../app/common/form/MyTextArea';
 import MySelectInput from '../../../app/common/form/MySelectInput';
 import { categoryData } from '../../../app/api/categoryOptions';
 import MyDateInput from '../../../app/common/form/MyDateInput';
+import MyPlaceInput from '../../../app/common/form/MyPlaceInput';
 
 function EventForm({ match, history }) {
   const dispatch = useDispatch();
@@ -22,16 +24,26 @@ function EventForm({ match, history }) {
     title: '',
     category: '',
     description: '',
-    city: '',
-    venue: '',
+    city: {
+      address: '',
+      latLng: null
+    },
+    venue: {
+      address: '',
+      latLng: null
+    },
     date: '',
   };
   const validationSchema = Yup.object({
     title: Yup.string().required('You must provide a title'),
     category: Yup.string().required('You must provide a category'),
     description: Yup.string().required('You must provide a description'),
-    city: Yup.string().required('You must provide a city'),
-    venue: Yup.string().required('You must provide a venue'),
+    city: Yup.object().shape({
+      address: Yup.string().required('City is required')
+    }),
+    venue: Yup.object().shape({
+      address: Yup.string().required('Venue is required')
+    }),
     date: Yup.string().required('You must provide a date'),
   });
 
@@ -55,7 +67,7 @@ function EventForm({ match, history }) {
           history.push('/events');
         }}
       >
-        {({ isSubmitting, dirty, isValid }) => (
+        {({ isSubmitting, dirty, isValid, values }) => (
           <Form className='ui form'>
             <Header sub color='teal' content='Event Details' />
             <MyTextInput name='title' placeholder='Event title' />
@@ -66,8 +78,17 @@ function EventForm({ match, history }) {
             />
             <MyTextArea name='description' placeholder='Description' rows={3} />
             <Header sub color='teal' content='Event Location Details' />
-            <MyTextInput name='city' placeholder='City' />
-            <MyTextInput name='venue' placeholder='Venue' />
+            <MyPlaceInput name='city' placeholder='City' />
+            <MyPlaceInput 
+            name='venue' 
+            disabled={!values.city.latLng}
+            placeholder='Venue'
+            options={{
+              location: new google.maps.LatLng(values.city.latLng),
+              radius: 100,
+              types: ['establishment']
+            }} 
+            />
             <MyDateInput
               name='date'
               placeholderText='Event date'
