@@ -6,7 +6,7 @@ import SignedInMenu from './SignedInMenu';
 import SignedOutMenu from './SignedOutMenu';
 
 function NavBar({ setFormOpen }) {
-  const {authenticated} = useSelector(state => state.auth)
+  const { authenticated } = useSelector((state) => state.auth);
 
   return (
     <Menu inverted fixed='top'>
@@ -26,12 +26,8 @@ function NavBar({ setFormOpen }) {
             <Button positive inverted content='Create event' />
           </Menu.Item>
         )}
+        {authenticated ? <SignedInMenu /> : <SignedOutMenu />}
       </Container>
-      {authenticated ? (
-        <SignedInMenu />
-      ) : (
-        <SignedOutMenu />
-      )}
     </Menu>
   );
 }
