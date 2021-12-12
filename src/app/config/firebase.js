@@ -5,7 +5,7 @@ import 'firebase/compat/auth'
 import 'firebase/compat/storage'
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDQz66oFYyVaz4J3MbUshvjhibppCHUIv8",
+    apiKey: "hidden",
     authDomain: "revents-personalproject.firebaseapp.com",
     projectId: "revents-personalproject",
     storageBucket: "revents-personalproject.appspot.com",
