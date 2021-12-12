@@ -27,11 +27,11 @@ function ProfilePage({ match }) {
       <Grid.Column width={16}>
         <ProfileHeader
           profile={selectedUserProfile}
-          isCurrentUser={currentUser.iod === selectedUserProfile.id}
+          isCurrentUser={currentUser.uid === selectedUserProfile.id}
         />
         <ProfileContent
           profile={selectedUserProfile}
-          isCurrentUser={currentUser.iod === selectedUserProfile.id}
+          isCurrentUser={currentUser.uid === selectedUserProfile.id}
         />
       </Grid.Column>
     </Grid>
