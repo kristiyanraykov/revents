@@ -1,6 +1,7 @@
 import {
   CLEAR_COMMENTS,
   CLEAR_EVENTS,
+  CLEAR_SELECTED_EVENT,
   CREATE_EVENT,
   DELETE_EVENT,
   FETCH_EVENTS,
@@ -48,7 +49,7 @@ export default function eventReducer(state = initialState, { type, payload }) {
         ...state,
         events: [...state.events, ...payload.events],
         moreEvents: payload.moreEvents,
-        lastVisible: payload.lastVisible
+        lastVisible: payload.lastVisible,
       };
     case LISTEN_TO_EVENT_CHAT:
       return {
@@ -65,32 +66,37 @@ export default function eventReducer(state = initialState, { type, payload }) {
         ...state,
         selectedEvent: payload,
       };
+    case CLEAR_SELECTED_EVENT:
+      return {
+        ...state,
+        selectedEvent: null,
+      };
     case CLEAR_EVENTS:
       return {
         ...state,
         events: [],
         moreEvents: true,
-        lastVisible: null
-      }
+        lastVisible: null,
+      };
     case SET_FILTER:
       return {
         ...state,
         retainState: false,
         moreEvents: true,
-        filter: payload
-      }
+        filter: payload,
+      };
     case SET_START_DATE:
       return {
         ...state,
         retainState: false,
         moreEvents: true,
         startDate: payload,
-      }
+      };
     case RETAIN_STATE:
       return {
         ...state,
-        retainState: true
-      }
+        retainState: true,
+      };
     default:
       return state;
   }

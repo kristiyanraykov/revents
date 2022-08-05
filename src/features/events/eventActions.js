@@ -9,6 +9,7 @@ import {
 } from '../../app/firestore/firestoreService';
 import {
   CLEAR_EVENTS,
+  CLEAR_SELECTED_EVENT,
   CREATE_EVENT,
   DELETE_EVENT,
   FETCH_EVENTS,
@@ -88,4 +89,9 @@ export function clearEvents() {
   return {
     type: CLEAR_EVENTS,
   };
+}
+export function clearSelectedEvent() {
+    return {
+        type: CLEAR_SELECTED_EVENT
+    }
 }

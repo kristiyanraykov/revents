@@ -1,10 +1,10 @@
 /* global google */
 import { toast } from 'react-toastify';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Confirm, Header, Segment } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { listenToSelectedEvent } from '../eventActions';
+import { clearSelectedEvent, listenToSelectedEvent } from '../eventActions';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import MyTextInput from '../../../app/common/form/MyTextInput';
@@ -23,7 +23,7 @@ import useFirestoreDoc from '../../../app/hooks/useFirestoreDoc';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { Redirect } from 'react-router';
 
-function EventForm({ match, history }) {
+function EventForm({ match, history, location }) {
   const { loading, error } = useSelector((state) => state.async);
 
   const dispatch = useDispatch();
@@ -31,6 +31,11 @@ function EventForm({ match, history }) {
   const [loadingCancel, setLoadingCancel] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const {selectedEvent} = useSelector((state) => state.event);
+
+  useEffect(() => {
+    if (location.pathname !== '/createEvent') return
+    dispatch(clearSelectedEvent())
+  }, [dispatch, location.pathname])
 
   const initialValues = selectedEvent ?? {
     title: '',
@@ -70,7 +75,7 @@ function EventForm({ match, history }) {
     }
   }
   useFirestoreDoc({
-    shouldExecute: !!match.params.id,
+    shouldExecute: match.params.id !== selectedEvent?.id && location.pathname !== '/createEvent',
     query: () => listenToEventFromFirestore(match.params.id),
     data: (event) => dispatch(listenToSelectedEvent(event)),
     deps: [match.params.id, dispatch],
@@ -80,6 +85,7 @@ function EventForm({ match, history }) {
   return (
     <Segment clearing>
       <Formik
+        enableReinitialize
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting }) => {
@@ -124,6 +130,7 @@ function EventForm({ match, history }) {
               showTimeSelect
               timeCaption='time'
               dateFormat='MMMM d, yyyy h:mm a'
+              autoComplete='off'
             />
             {selectedEvent && (
               <Button

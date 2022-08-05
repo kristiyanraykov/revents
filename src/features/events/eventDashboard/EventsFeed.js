@@ -19,7 +19,7 @@ function EventsFeed() {
         })
 
         return () => {
-            getUserFeedRef().off()
+            getUserFeedRef()?.off()
         }
     }, [dispatch])
 
