@@ -30,7 +30,7 @@ function EventForm({ match, history }) {
 
   const [loadingCancel, setLoadingCancel] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const selectedEvent = useSelector((state) => state.event);
+  const {selectedEvent} = useSelector((state) => state.event);
 
   const initialValues = selectedEvent ?? {
     title: '',
@@ -95,7 +95,7 @@ function EventForm({ match, history }) {
           }
         }}
       >
-        {({ isSubmitting, dirty, isValid, values }) => (
+        {({ isSubmitting, dirty, isValid, value }) => (
           <Form className='ui form'>
             <Header sub color='teal' content='Event Details' />
             <MyTextInput name='title' placeholder='Event title' />
@@ -109,10 +109,10 @@ function EventForm({ match, history }) {
             <MyPlaceInput name='city' placeholder='City' />
             <MyPlaceInput
               name='venue'
-              disabled={!values.city.latLng}
+              disabled={!value?.city.latLng}
               placeholder='Venue'
               options={{
-                location: new google.maps.LatLng(values.city.latLng),
+                location: new google.maps.LatLng(value?.city.latLng),
                 radius: 100,
                 types: ['establishment'],
               }}

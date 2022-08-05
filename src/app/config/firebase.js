@@ -5,7 +5,7 @@ import 'firebase/compat/auth'
 import 'firebase/compat/storage'
 
 const firebaseConfig = {
-    apiKey: process.env.REACT_APP_API_KEY,
+    apiKey: "AIzaSyDQz66oFYyVaz4J3MbUshvjhibppCHUIv8",
     authDomain: "revents-personalproject.firebaseapp.com",
     projectId: "revents-personalproject",
     storageBucket: "revents-personalproject.appspot.com",
@@ -18,3 +18,5 @@ const firebaseConfig = {
   firebase.firestore()
 
   export default firebase
+
+  // process.env.REACT_APP_API_KEY,
